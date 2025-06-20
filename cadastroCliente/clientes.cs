@@ -1,13 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace cadastroCliente
 {
@@ -53,9 +48,9 @@ namespace cadastroCliente
                     if (endereco != null && endereco.erro != true)
                     {
                         txtLongradouro.Text = endereco.logradouro;
-                        txtBairro.Text = endereco.bairro;        // Aqui parece que o nome do campo não condiz com o conteúdo
+                        txtBairro.Text = endereco.bairro;        
                         txtCidade.Text = endereco.localidade;
-                        txtEstado.Text = endereco.uf;       // Talvez renomear para txtEstado
+                        txtEstado.Text = endereco.uf;      
                     }
                     else
                     {
@@ -68,7 +63,7 @@ namespace cadastroCliente
                 MessageBox.Show($"Erro ao buscar o CEP: {ex.Message}");
             }
         }
-
+        
             public class ViaCepResponse
         {
             public string cep { get; set; }
@@ -89,6 +84,70 @@ namespace cadastroCliente
         {
             dataCadastro.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
+
+        private void btnGravar_Click(object sender, EventArgs e)
+        {
+            string conexaoString = "server=localhost;database=cadastroclientes;uid=root;pwd=;";
+
+            using (MySqlConnection conexao = new MySqlConnection(conexaoString))
+            {
+                try
+                {
+                    conexao.Open();
+
+                    string query = "INSERT INTO clientes (dataCadastro, nome, tipoContato, telefone, cep, longradouro, complemento, bairro, cidade,estado) " +
+                        "VALUES (@dataCadastro, @nome, @tipoContato, @telefone, @cep, @longradouro, @complemento, @bairro, @cidade, @estado)";
+
+                    using (MySqlCommand comando = new MySqlCommand(query, conexao))
+                    {
+                        comando.Parameters.AddWithValue("@dataCadastro", dataCadastro.Text);
+                        comando.Parameters.AddWithValue("@nome", txtNome.Text);
+                        comando.Parameters.AddWithValue("@tipoContato", cmbTipoContato.Text);
+                        comando.Parameters.AddWithValue("@telefone", mskTelefone.Text);
+                        comando.Parameters.AddWithValue("@cep", txtCep.Text);
+                        comando.Parameters.AddWithValue("@longradouro", txtLongradouro.Text);
+                        comando.Parameters.AddWithValue("@complemento", txtComplemento.Text);
+                        comando.Parameters.AddWithValue("@bairro", txtBairro.Text);
+                        comando.Parameters.AddWithValue("@cidade", txtCidade.Text);
+                        comando.Parameters.AddWithValue("@estado", txtEstado.Text);
+
+                        DateTime dataCadastroConvertida;
+                        if (DateTime.TryParse(dataCadastro.Text, out dataCadastroConvertida))
+                        {
+                            comando.Parameters.AddWithValue("@data_cadastro", dataCadastroConvertida);
+                        }
+                        else
+                        {
+                            comando.Parameters.AddWithValue("@data_cadastro", DBNull.Value);
+                        }
+
+                        comando.ExecuteNonQuery();
+                        MessageBox.Show("Cliente cadastrado com sucesso!");
+
+                        txtNome.Clear();
+                        cmbTipoContato.Text = "";
+                        mskTelefone.Clear();
+                        txtCep.Clear();
+                        txtLongradouro.Clear();
+                        txtComplemento.Clear();
+                        txtBairro.Clear();
+                        txtCidade.Clear();
+                        txtEstado.Clear();
+                        this.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Inconsistência ao gravar os dados: " + ex.Message);
+                }
+            }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
+
 
