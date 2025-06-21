@@ -25,7 +25,13 @@ namespace cadastroCliente
         }
         private void CarregarClientes()
         {
+            dgvConsultaClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvConsultaClientes.MultiSelect = false;
+            dgvConsultaClientes.ReadOnly = true;
+            dgvConsultaClientes.AllowUserToAddRows = false;
+
             string conexaoString = "server=localhost;database=cadastroclientes;uid=root;pwd=;";
+            DataTable tabelaClientes = new DataTable();
 
             using (MySqlConnection conexao = new MySqlConnection(conexaoString))
             {
@@ -33,56 +39,66 @@ namespace cadastroCliente
                 {
                     conexao.Open();
 
-                    string query = "SELECT codigo, dataCadastro, nome, tipoContato, telefone, cep, longradouro, complemento," +
-                        "bairro, cidade, estado FROM clientes";
+                    string query = @"
+                        SELECT 
+                            c.codigo,
+                            c.dataCadastro,
+                            c.nome,
+                            ct.tipo AS tipoContato,
+                            ct.descricao,
+                            e.cep,
+                            e.longradouro,
+                            e.numero,
+                            e.complemento,
+                            e.cidade,
+                            e.bairro
+                        FROM clientes c
+                        LEFT JOIN contato ct ON c.codigo = ct.codigo
+                        LEFT JOIN endereco e ON c.codigo = e.codigo;
+                    ";
 
                     using (MySqlDataAdapter adaptador = new MySqlDataAdapter(query, conexao))
                     {
-                        DataTable tabelaClientes = new DataTable();
                         adaptador.Fill(tabelaClientes);
-
-                        dgvConsultaClientes.DataSource = tabelaClientes;
-
-                        dgvConsultaClientes.Columns["codigo"].Visible = false;
-                        dgvConsultaClientes.Columns["dataCadastro"].HeaderText = "Data do Cadastro";
-                        dgvConsultaClientes.Columns["nome"].HeaderText = "Nome do Cliente";
-                        dgvConsultaClientes.Columns["tipoContato"].HeaderText = "Tipo de Contato";
-                        dgvConsultaClientes.Columns["telefone"].HeaderText = "Telefone";
-                        dgvConsultaClientes.Columns["cep"].HeaderText = "CEP";
-                        dgvConsultaClientes.Columns["longradouro"].HeaderText = "Longradouro";
-                        dgvConsultaClientes.Columns["complemento"].HeaderText = "Complemento";
-                        dgvConsultaClientes.Columns["bairro"].HeaderText = "Bairro";
-                        dgvConsultaClientes.Columns["cidade"].HeaderText = "Cidade";
-                        dgvConsultaClientes.Columns["estado"].HeaderText = "Estado";
-
-                        dgvConsultaClientes.Columns["dataCadastro"].Width = 70;
-                        dgvConsultaClientes.Columns["nome"].Width = 220;
-                        dgvConsultaClientes.Columns["tipoContato"].Width = 80;
-                        dgvConsultaClientes.Columns["telefone"].Width = 90;
-                        dgvConsultaClientes.Columns["cep"].Width = 75;
-                        dgvConsultaClientes.Columns["longradouro"].Width = 225;
-                        dgvConsultaClientes.Columns["complemento"].Width = 150;
-                        dgvConsultaClientes.Columns["bairro"].Width = 90;
-                        dgvConsultaClientes.Columns["cidade"].Width = 100;
-                        dgvConsultaClientes.Columns["estado"].Width = 43;
-
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Erro ao carregar clientes: " + ex.Message);
+                    return;
                 }
-
-                dgvConsultaClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dgvConsultaClientes.MultiSelect = false;
-                dgvConsultaClientes.ReadOnly = true;
-                dgvConsultaClientes.AllowUserToAddRows = false;
             }
+
+            dgvConsultaClientes.DataSource = tabelaClientes;
+
+            if (dgvConsultaClientes.Columns.Contains("codigo"))
+                dgvConsultaClientes.Columns["codigo"].Visible = false;
+
+            dgvConsultaClientes.Columns["dataCadastro"].HeaderText = "Data do Cadastro";
+            dgvConsultaClientes.Columns["nome"].HeaderText = "Nome do Cliente";
+            dgvConsultaClientes.Columns["tipoContato"].HeaderText = "Tipo de Contato";
+            dgvConsultaClientes.Columns["descricao"].HeaderText = "Telefone";
+            dgvConsultaClientes.Columns["cep"].HeaderText = "CEP";
+            dgvConsultaClientes.Columns["longradouro"].HeaderText = "Longradouro";
+            dgvConsultaClientes.Columns["numero"].HeaderText = "Número";
+            dgvConsultaClientes.Columns["complemento"].HeaderText = "Complemento";
+            dgvConsultaClientes.Columns["bairro"].HeaderText = "Bairro";
+            dgvConsultaClientes.Columns["cidade"].HeaderText = "Cidade";
+         
+
+            dgvConsultaClientes.Columns["dataCadastro"].Width = 75;
+            dgvConsultaClientes.Columns["nome"].Width = 205;
+            dgvConsultaClientes.Columns["tipoContato"].Width = 80;
+            dgvConsultaClientes.Columns["descricao"].Width = 90;
+            dgvConsultaClientes.Columns["cep"].Width = 75;
+            dgvConsultaClientes.Columns["longradouro"].Width = 225;
+            dgvConsultaClientes.Columns["numero"].Width = 77;
+            dgvConsultaClientes.Columns["complemento"].Width = 115;
+            dgvConsultaClientes.Columns["bairro"].Width = 102;
+            dgvConsultaClientes.Columns["cidade"].Width = 100;
+          
+
         }
-
-
-
-       
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {

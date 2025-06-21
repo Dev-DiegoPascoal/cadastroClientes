@@ -3,12 +3,13 @@ using Newtonsoft.Json;
 using System;
 using System.Windows.Forms;
 
-
 namespace cadastroCliente
 {
 
     public partial class clientes : Form
     {
+        private object comando;
+
         public EventHandler Clientes_Load { get; }
 
         public clientes()
@@ -86,64 +87,104 @@ namespace cadastroCliente
         }
 
         private void btnGravar_Click(object sender, EventArgs e)
-        {
-            string conexaoString = "server=localhost;database=cadastroclientes;uid=root;pwd=;";
 
-            using (MySqlConnection conexao = new MySqlConnection(conexaoString))
+        {
+
+            if (string.IsNullOrWhiteSpace(txtNome.Text) ||
+                 string.IsNullOrWhiteSpace(cmbTipoContato.Text) ||
+                 string.IsNullOrWhiteSpace(mskTelefone.Text) ||
+                 string.IsNullOrWhiteSpace(txtCep.Text) ||
+                 string.IsNullOrWhiteSpace(txtLongradouro.Text) ||
+                 string.IsNullOrWhiteSpace(txtComplemento.Text) ||
+                 string.IsNullOrWhiteSpace(txtNumero.Text) ||
+                 string.IsNullOrWhiteSpace(txtBairro.Text) ||
+                 string.IsNullOrWhiteSpace(txtCidade.Text) ||
+                 string.IsNullOrWhiteSpace(txtEstado.Text))
             {
-                try
+                MessageBox.Show("Preencha todos os campos.", "Campos obrigatórios", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+           
+                string conexaoString = "server=localhost;database=cadastroclientes;uid=root;pwd=;";
+
+                using (MySqlConnection conexao = new MySqlConnection(conexaoString))
                 {
                     conexao.Open();
 
-                    string query = "INSERT INTO clientes (dataCadastro, nome, tipoContato, telefone, cep, longradouro, complemento, bairro, cidade,estado) " +
-                        "VALUES (@dataCadastro, @nome, @tipoContato, @telefone, @cep, @longradouro, @complemento, @bairro, @cidade, @estado)";
-
-                    using (MySqlCommand comando = new MySqlCommand(query, conexao))
+                    using (MySqlTransaction transacao = conexao.BeginTransaction())
                     {
-                        comando.Parameters.AddWithValue("@dataCadastro", dataCadastro.Text);
-                        comando.Parameters.AddWithValue("@nome", txtNome.Text);
-                        comando.Parameters.AddWithValue("@tipoContato", cmbTipoContato.Text);
-                        comando.Parameters.AddWithValue("@telefone", mskTelefone.Text);
-                        comando.Parameters.AddWithValue("@cep", txtCep.Text);
-                        comando.Parameters.AddWithValue("@longradouro", txtLongradouro.Text);
-                        comando.Parameters.AddWithValue("@complemento", txtComplemento.Text);
-                        comando.Parameters.AddWithValue("@bairro", txtBairro.Text);
-                        comando.Parameters.AddWithValue("@cidade", txtCidade.Text);
-                        comando.Parameters.AddWithValue("@estado", txtEstado.Text);
-
-                        DateTime dataCadastroConvertida;
-                        if (DateTime.TryParse(dataCadastro.Text, out dataCadastroConvertida))
+                        try
                         {
-                            comando.Parameters.AddWithValue("@data_cadastro", dataCadastroConvertida);
+                            // 1) Inserir cliente
+                            string queryCliente = "INSERT INTO clientes (dataCadastro, nome) VALUES (@dataCadastro, @nome)";
+                            long clienteId;
+
+                            using (MySqlCommand cmdCliente = new MySqlCommand(queryCliente, conexao, transacao))
+                            {
+                                cmdCliente.Parameters.AddWithValue("@dataCadastro", DateTime.Now);
+                                cmdCliente.Parameters.AddWithValue("@nome", txtNome.Text);
+                                cmdCliente.ExecuteNonQuery();
+
+                                clienteId = cmdCliente.LastInsertedId; // pega o ID gerado
+                            }
+
+                            // 2) Inserir contato
+                            string queryContato = "INSERT INTO contato (codigo, tipo, descricao) VALUES (@codigo, @tipo, @descricao)";
+                            using (MySqlCommand cmdContato = new MySqlCommand(queryContato, conexao, transacao))
+                            {
+                                cmdContato.Parameters.AddWithValue("@codigo", clienteId);
+                                cmdContato.Parameters.AddWithValue("@tipo", cmbTipoContato.Text);
+                                cmdContato.Parameters.AddWithValue("@descricao", mskTelefone.Text);
+                                cmdContato.ExecuteNonQuery();
+                            }
+
+                            // 3) Inserir endereço
+                            string queryEndereco = @"INSERT INTO endereco 
+                                (codigo, cep, longradouro, numero, complemento, bairro, cidade, estado) 
+                                VALUES (@codigo, @cep, @longradouro, @numero, @complemento, @bairro, @cidade, @estado)";
+
+                            using (MySqlCommand cmdEndereco = new MySqlCommand(queryEndereco, conexao, transacao))
+                            {
+                                cmdEndereco.Parameters.AddWithValue("@codigo", clienteId);
+                                cmdEndereco.Parameters.AddWithValue("@cep", txtCep.Text);
+                                cmdEndereco.Parameters.AddWithValue("@longradouro", txtLongradouro.Text);
+                                cmdEndereco.Parameters.AddWithValue("@numero", txtNumero.Text);
+                                cmdEndereco.Parameters.AddWithValue("@complemento", txtComplemento.Text);
+                                cmdEndereco.Parameters.AddWithValue("@bairro", txtBairro.Text);
+                                cmdEndereco.Parameters.AddWithValue("@cidade", txtCidade.Text);
+                                cmdEndereco.Parameters.AddWithValue("@estado", txtEstado.Text);
+                                cmdEndereco.ExecuteNonQuery();
+                            }
+
+                            // Commit na transação: confirma tudo
+                            transacao.Commit();
+
+                            MessageBox.Show("Cliente cadastrado com sucesso!");
+
+                            // Limpa os campos após gravar
+                            txtNome.Clear();
+                            cmbTipoContato.SelectedIndex = -1;
+                            mskTelefone.Clear();
+                            txtCep.Clear();
+                            txtLongradouro.Clear();
+                            txtNumero.Clear();
+                            txtComplemento.Clear();
+                            txtBairro.Clear();
+                            txtCidade.Clear();
+                            txtEstado.Clear();
+
+                            this.Close(); // fecha o form se desejar
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            comando.Parameters.AddWithValue("@data_cadastro", DBNull.Value);
+                            transacao.Rollback(); // desfaz tudo se der erro
+                            MessageBox.Show("Erro ao gravar os dados: " + ex.Message);
                         }
-
-                        comando.ExecuteNonQuery();
-                        MessageBox.Show("Cliente cadastrado com sucesso!");
-
-                        txtNome.Clear();
-                        cmbTipoContato.Text = "";
-                        mskTelefone.Clear();
-                        txtCep.Clear();
-                        txtLongradouro.Clear();
-                        txtComplemento.Clear();
-                        txtBairro.Clear();
-                        txtCidade.Clear();
-                        txtEstado.Clear();
-                        this.Close();
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Inconsistência ao gravar os dados: " + ex.Message);
-                }
             }
-        }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+                private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
         }

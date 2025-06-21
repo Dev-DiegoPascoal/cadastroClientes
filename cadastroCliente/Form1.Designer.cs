@@ -90,6 +90,7 @@
             this.endereçoToolStripMenuItem.Name = "endereçoToolStripMenuItem";
             this.endereçoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.endereçoToolStripMenuItem.Text = "Endereço";
+            this.endereçoToolStripMenuItem.Click += new System.EventHandler(this.endereçoToolStripMenuItem_Click);
             // 
             // ajudaToolStripMenuItem
             // 

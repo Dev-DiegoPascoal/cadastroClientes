@@ -41,5 +41,11 @@ namespace cadastroCliente
             telaCliente.Show();
             
         }
+
+        private void endereçoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            consultaenderecos telaCliente = new consultaenderecos();
+            telaCliente.Show();
+        }
     }
 }

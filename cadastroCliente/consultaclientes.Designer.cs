@@ -47,7 +47,7 @@ using MySql.Data.MySqlClient;
             this.dgvConsultaClientes.RowTemplate.Height = 25;
             this.dgvConsultaClientes.Size = new System.Drawing.Size(1186, 545);
             this.dgvConsultaClientes.TabIndex = 1;
-            this.dgvConsultaClientes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvConsultaClientes_CellContentClick);
+   
             // 
             // btnCancelar
             // 
