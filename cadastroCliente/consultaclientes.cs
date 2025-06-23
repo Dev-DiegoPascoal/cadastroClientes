@@ -50,12 +50,13 @@ namespace cadastroCliente
                             e.longradouro,
                             e.numero,
                             e.complemento,
-                            e.cidade,
-                            e.bairro
+                            e.bairro,
+                            e.cidade
                         FROM clientes c
-                        LEFT JOIN contato ct ON c.codigo = ct.codigo
-                        LEFT JOIN endereco e ON c.codigo = e.codigo;
+                        LEFT JOIN contato ct ON c.codigo = ct.codigo_cliente
+                        LEFT JOIN endereco e ON c.codigo = e.codigo_cliente;
                     ";
+
 
                     using (MySqlDataAdapter adaptador = new MySqlDataAdapter(query, conexao))
                     {
@@ -113,7 +114,8 @@ namespace cadastroCliente
                 int codigo = Convert.ToInt32(dgvConsultaClientes.SelectedRows[0].Cells["codigo"].Value);
 
                 DialogResult resultado = MessageBox.Show(
-                    "Tem certeza que deseja excluir este cliente?",
+                    "Tem certeza que deseja excluir este cliente? Fazendo isso o endereço atribuído a ele " +
+                    "também será excluído!",
                     "Confirmação de Exclusão",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
@@ -159,5 +161,57 @@ namespace cadastroCliente
             telaCliente.Show();
             CarregarClientes();
         }
+
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+            string filtro = txtConsulta.Text.Trim();
+
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                // Cast para o DataTable atual da Grid
+                DataTable? tabela = dgvConsultaClientes.DataSource as DataTable;
+
+                if (tabela != null)
+                {
+                    // Cria um filtro do tipo LIKE (Exemplo: filtro por Nome)
+                    string filtroExpressao = $"nome LIKE '%{filtro}%'";
+
+                    DataView dv = new DataView(tabela);
+                    dv.RowFilter = filtroExpressao;
+
+                    dgvConsultaClientes.DataSource = dv;
+                }
+            }
+            else
+            {
+                // Se o campo estiver vazio, recarrega a lista completa
+                CarregarClientes();
+            }
+        }
+
+        private void btnLimparConsulta_Click(object sender, EventArgs e)
+        {
+            txtConsulta.Clear();  
+            CarregarClientes();
+        }
+
+        private void btnAlterar_Click(object sender, EventArgs e)
+        {
+            if (dgvConsultaClientes.SelectedRows.Count > 0)
+            {
+                int codigo = Convert.ToInt32(dgvConsultaClientes.SelectedRows[0].Cells["codigo"].Value);
+
+                alteracaoclientes telaAlteracao = new alteracaoclientes(codigo);
+                telaAlteracao.ShowDialog();
+
+                // Recarregar após a alteração
+                CarregarClientes();
+            }
+            else
+            {
+                MessageBox.Show("Selecione um cliente para alterar.");
+            }
+        }
     }
 }
+

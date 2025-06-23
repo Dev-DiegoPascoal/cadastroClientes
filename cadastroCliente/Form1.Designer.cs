@@ -34,9 +34,6 @@
             this.consultasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.endereçoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ajudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sobreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dicasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +43,6 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cadastrosToolStripMenuItem,
             this.consultasToolStripMenuItem,
-            this.ajudaToolStripMenuItem,
             this.sairToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -81,37 +77,16 @@
             // clientesToolStripMenuItem
             // 
             this.clientesToolStripMenuItem.Name = "clientesToolStripMenuItem";
-            this.clientesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clientesToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.clientesToolStripMenuItem.Text = "Clientes";
             this.clientesToolStripMenuItem.Click += new System.EventHandler(this.clientesToolStripMenuItem_Click);
             // 
             // endereçoToolStripMenuItem
             // 
             this.endereçoToolStripMenuItem.Name = "endereçoToolStripMenuItem";
-            this.endereçoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.endereçoToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.endereçoToolStripMenuItem.Text = "Endereço";
             this.endereçoToolStripMenuItem.Click += new System.EventHandler(this.endereçoToolStripMenuItem_Click);
-            // 
-            // ajudaToolStripMenuItem
-            // 
-            this.ajudaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sobreToolStripMenuItem,
-            this.dicasToolStripMenuItem});
-            this.ajudaToolStripMenuItem.Name = "ajudaToolStripMenuItem";
-            this.ajudaToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.ajudaToolStripMenuItem.Text = "Ajuda";
-            // 
-            // sobreToolStripMenuItem
-            // 
-            this.sobreToolStripMenuItem.Name = "sobreToolStripMenuItem";
-            this.sobreToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.sobreToolStripMenuItem.Text = "Sobre";
-            // 
-            // dicasToolStripMenuItem
-            // 
-            this.dicasToolStripMenuItem.Name = "dicasToolStripMenuItem";
-            this.dicasToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.dicasToolStripMenuItem.Text = "Dicas";
             // 
             // sairToolStripMenuItem
             // 
@@ -147,9 +122,6 @@
         private ToolStripMenuItem consultasToolStripMenuItem;
         private ToolStripMenuItem clientesToolStripMenuItem;
         private ToolStripMenuItem endereçoToolStripMenuItem;
-        private ToolStripMenuItem ajudaToolStripMenuItem;
-        private ToolStripMenuItem sobreToolStripMenuItem;
-        private ToolStripMenuItem dicasToolStripMenuItem;
         private ToolStripMenuItem sairToolStripMenuItem;
     }
 }

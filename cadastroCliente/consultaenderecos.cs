@@ -71,5 +71,34 @@ namespace cadastroCliente
         {
             this.Close();
         }
+
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+            string filtro = txtConsulta.Text.Trim();
+
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                DataTable? tabela = dgvConsultaEnderecos.DataSource as DataTable;
+
+                if (tabela != null)
+                {
+                    string filtroExpressao = $"longradouro LIKE '%{filtro}%'";
+
+                    DataView dv = new DataView(tabela);
+                    dv.RowFilter = filtroExpressao;
+                    dgvConsultaEnderecos.DataSource = dv;
+                }
+            }
+            else
+            {
+                CarregarEnderecos(); 
+            }
+        }
+
+        private void btnLimparConsulta_Click(object sender, EventArgs e)
+        {
+            txtConsulta.Clear();
+            CarregarEnderecos();
+        }
     }
 }

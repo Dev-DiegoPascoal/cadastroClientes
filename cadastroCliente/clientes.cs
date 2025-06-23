@@ -9,6 +9,7 @@ namespace cadastroCliente
     public partial class clientes : Form
     {
         private object comando;
+        private object cmdContato;
 
         public EventHandler Clientes_Load { get; }
 
@@ -128,53 +129,42 @@ namespace cadastroCliente
                                 clienteId = cmdCliente.LastInsertedId; // pega o ID gerado
                             }
 
-                            // 2) Inserir contato
-                            string queryContato = "INSERT INTO contato (codigo, tipo, descricao) VALUES (@codigo, @tipo, @descricao)";
-                            using (MySqlCommand cmdContato = new MySqlCommand(queryContato, conexao, transacao))
-                            {
-                                cmdContato.Parameters.AddWithValue("@codigo", clienteId);
-                                cmdContato.Parameters.AddWithValue("@tipo", cmbTipoContato.Text);
-                                cmdContato.Parameters.AddWithValue("@descricao", mskTelefone.Text);
-                                cmdContato.ExecuteNonQuery();
-                            }
+                        string queryContato = "INSERT INTO contato (codigo_cliente, tipo, descricao) VALUES (@codigo_cliente, @tipo, @descricao)";
+                        using (MySqlCommand cmdContato = new MySqlCommand(queryContato, conexao, transacao))
+                        {
+                            cmdContato.Parameters.AddWithValue("@codigo_cliente", clienteId);
+                            cmdContato.Parameters.AddWithValue("@tipo", cmbTipoContato.Text);
+                            cmdContato.Parameters.AddWithValue("@descricao", mskTelefone.Text);
+                            cmdContato.ExecuteNonQuery();
+                        }
 
-                            // 3) Inserir endereço
-                            string queryEndereco = @"INSERT INTO endereco 
-                                (codigo, cep, longradouro, numero, complemento, bairro, cidade, estado) 
-                                VALUES (@codigo, @cep, @longradouro, @numero, @complemento, @bairro, @cidade, @estado)";
 
-                            using (MySqlCommand cmdEndereco = new MySqlCommand(queryEndereco, conexao, transacao))
-                            {
-                                cmdEndereco.Parameters.AddWithValue("@codigo", clienteId);
-                                cmdEndereco.Parameters.AddWithValue("@cep", txtCep.Text);
-                                cmdEndereco.Parameters.AddWithValue("@longradouro", txtLongradouro.Text);
-                                cmdEndereco.Parameters.AddWithValue("@numero", txtNumero.Text);
-                                cmdEndereco.Parameters.AddWithValue("@complemento", txtComplemento.Text);
-                                cmdEndereco.Parameters.AddWithValue("@bairro", txtBairro.Text);
-                                cmdEndereco.Parameters.AddWithValue("@cidade", txtCidade.Text);
-                                cmdEndereco.Parameters.AddWithValue("@estado", txtEstado.Text);
-                                cmdEndereco.ExecuteNonQuery();
-                            }
+                        string queryEndereco = "INSERT INTO endereco (codigo_cliente, cep, longradouro, numero, complemento, bairro, cidade, estado) " +
+                       "VALUES (@codigo_cliente, @cep, @longradouro, @numero, @complemento, @bairro, @cidade, @estado)";
+                        using (MySqlCommand cmdEndereco = new MySqlCommand(queryEndereco, conexao, transacao))
+                        {
+                            cmdEndereco.Parameters.AddWithValue("@codigo_cliente", clienteId);
+                            cmdEndereco.Parameters.AddWithValue("@cep", txtCep.Text);
+                            cmdEndereco.Parameters.AddWithValue("@longradouro", txtLongradouro.Text);
+                            cmdEndereco.Parameters.AddWithValue("@numero", txtNumero.Text);
+                            cmdEndereco.Parameters.AddWithValue("@complemento", txtComplemento.Text);
+                            cmdEndereco.Parameters.AddWithValue("@bairro", txtBairro.Text);
+                            cmdEndereco.Parameters.AddWithValue("@cidade", txtCidade.Text);
+                            cmdEndereco.Parameters.AddWithValue("@estado", txtEstado.Text);
+                            cmdEndereco.ExecuteNonQuery();
+                        }
 
-                            // Commit na transação: confirma tudo
-                            transacao.Commit();
+                        // Commit na transação: confirma tudo
+                        transacao.Commit();
 
                             MessageBox.Show("Cliente cadastrado com sucesso!");
 
-                            // Limpa os campos após gravar
-                            txtNome.Clear();
-                            cmbTipoContato.SelectedIndex = -1;
-                            mskTelefone.Clear();
-                            txtCep.Clear();
-                            txtLongradouro.Clear();
-                            txtNumero.Clear();
-                            txtComplemento.Clear();
-                            txtBairro.Clear();
-                            txtCidade.Clear();
-                            txtEstado.Clear();
 
-                            this.Close(); // fecha o form se desejar
-                        }
+                        this.Close();
+
+                        consultaclientes telaCliente = new consultaclientes();
+                        telaCliente.Show();
+                    }
                         catch (Exception ex)
                         {
                             transacao.Rollback(); // desfaz tudo se der erro

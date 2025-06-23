@@ -48,3 +48,4 @@ C:\Users\conta\OneDrive\Área de Trabalho\Arquivos Pen\Projetos C#\cadastroClien
 C:\Users\conta\OneDrive\Área de Trabalho\Arquivos Pen\Projetos C#\cadastroCliente\cadastroCliente\obj\Debug\net6.0-windows\cadastroCliente.consultaclientes.resources
 C:\Users\conta\OneDrive\Área de Trabalho\Arquivos Pen\Projetos C#\cadastroCliente\cadastroCliente\obj\Debug\net6.0-windows\cadastroCliente.Properties.Resources.resources
 C:\Users\conta\OneDrive\Área de Trabalho\Arquivos Pen\Projetos C#\cadastroCliente\cadastroCliente\obj\Debug\net6.0-windows\cadastroCliente.consultaenderecos.resources
+C:\Users\conta\OneDrive\Área de Trabalho\Arquivos Pen\Projetos C#\cadastroCliente\cadastroCliente\obj\Debug\net6.0-windows\cadastroCliente.alteracaoclientes.resources

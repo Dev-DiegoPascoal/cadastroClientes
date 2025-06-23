@@ -66,6 +66,7 @@
             this.label2.Size = new System.Drawing.Size(157, 25);
             this.label2.TabIndex = 2;
             this.label2.Text = "Data de Cadastro";
+          
             // 
             // label3
             // 
@@ -76,6 +77,7 @@
             this.label3.Size = new System.Drawing.Size(147, 25);
             this.label3.TabIndex = 5;
             this.label3.Text = "Tipo de Contato";
+     
             // 
             // cmbTipoContato
             // 
@@ -89,6 +91,7 @@
             this.cmbTipoContato.Name = "cmbTipoContato";
             this.cmbTipoContato.Size = new System.Drawing.Size(600, 33);
             this.cmbTipoContato.TabIndex = 6;
+          
             // 
             // label1
             // 
@@ -99,6 +102,7 @@
             this.label1.Size = new System.Drawing.Size(150, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Nome Completo";
+         
             // 
             // txtNome
             // 
@@ -106,6 +110,7 @@
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(966, 33);
             this.txtNome.TabIndex = 1;
+          
             // 
             // label4
             // 
@@ -116,6 +121,7 @@
             this.label4.Size = new System.Drawing.Size(183, 25);
             this.label4.TabIndex = 7;
             this.label4.Text = "Número de Telefone";
+         
             // 
             // mskTelefone
             // 
@@ -126,6 +132,7 @@
             this.mskTelefone.Size = new System.Drawing.Size(327, 39);
             this.mskTelefone.TabIndex = 9;
             this.mskTelefone.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+
             // 
             // label5
             // 
@@ -136,6 +143,7 @@
             this.label5.TabIndex = 10;
             this.label5.Text = "Endereço";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+           
             // 
             // txtCep
             // 
@@ -146,6 +154,7 @@
             this.txtCep.Size = new System.Drawing.Size(170, 39);
             this.txtCep.TabIndex = 11;
             this.txtCep.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+          
             // 
             // label6
             // 
@@ -156,6 +165,7 @@
             this.label6.Size = new System.Drawing.Size(45, 25);
             this.label6.TabIndex = 12;
             this.label6.Text = "CEP";
+        
             // 
             // txtLongradouro
             // 
@@ -164,6 +174,7 @@
             this.txtLongradouro.Name = "txtLongradouro";
             this.txtLongradouro.Size = new System.Drawing.Size(640, 33);
             this.txtLongradouro.TabIndex = 14;
+
             // 
             // label7
             // 
@@ -174,6 +185,7 @@
             this.label7.Size = new System.Drawing.Size(122, 25);
             this.label7.TabIndex = 13;
             this.label7.Text = "Longradouro";
+         
             // 
             // txtCidade
             // 
@@ -182,6 +194,7 @@
             this.txtCidade.Name = "txtCidade";
             this.txtCidade.Size = new System.Drawing.Size(466, 33);
             this.txtCidade.TabIndex = 16;
+           
             // 
             // label8
             // 
@@ -192,6 +205,7 @@
             this.label8.Size = new System.Drawing.Size(71, 25);
             this.label8.TabIndex = 15;
             this.label8.Text = "Cidade";
+     
             // 
             // txtBairro
             // 
@@ -200,6 +214,7 @@
             this.txtBairro.Name = "txtBairro";
             this.txtBairro.Size = new System.Drawing.Size(640, 33);
             this.txtBairro.TabIndex = 18;
+   
             // 
             // label9
             // 
@@ -210,6 +225,7 @@
             this.label9.Size = new System.Drawing.Size(63, 25);
             this.label9.TabIndex = 17;
             this.label9.Text = "Bairro";
+           
             // 
             // txtComplemento
             // 
@@ -217,6 +233,7 @@
             this.txtComplemento.Name = "txtComplemento";
             this.txtComplemento.Size = new System.Drawing.Size(346, 33);
             this.txtComplemento.TabIndex = 20;
+         
             // 
             // label10
             // 
@@ -227,13 +244,14 @@
             this.label10.Size = new System.Drawing.Size(131, 25);
             this.label10.TabIndex = 19;
             this.label10.Text = "Complemento";
+         
             // 
             // btnGravar
             // 
             this.btnGravar.BackColor = System.Drawing.Color.DarkOliveGreen;
             this.btnGravar.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnGravar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnGravar.Location = new System.Drawing.Point(706, 761);
+            this.btnGravar.Location = new System.Drawing.Point(680, 761);
             this.btnGravar.Name = "btnGravar";
             this.btnGravar.Size = new System.Drawing.Size(146, 46);
             this.btnGravar.TabIndex = 21;
@@ -245,7 +263,7 @@
             // 
             this.btnCancelar.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnCancelar.Location = new System.Drawing.Point(466, 761);
+            this.btnCancelar.Location = new System.Drawing.Point(440, 761);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(146, 46);
             this.btnCancelar.TabIndex = 22;
@@ -262,6 +280,7 @@
             this.label11.TabIndex = 23;
             this.label11.Text = "Dados Pessoais";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+         
             // 
             // buscarCep
             // 
@@ -282,6 +301,7 @@
             this.txtEstado.Name = "txtEstado";
             this.txtEstado.Size = new System.Drawing.Size(94, 33);
             this.txtEstado.TabIndex = 26;
+      
             // 
             // label12
             // 
@@ -292,6 +312,7 @@
             this.label12.Size = new System.Drawing.Size(68, 25);
             this.label12.TabIndex = 25;
             this.label12.Text = "Estado";
+     
             // 
             // dataCadastro
             // 
@@ -312,6 +333,7 @@
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(295, 33);
             this.txtNumero.TabIndex = 29;
+
             // 
             // label13
             // 
@@ -322,6 +344,7 @@
             this.label13.Size = new System.Drawing.Size(81, 25);
             this.label13.TabIndex = 28;
             this.label13.Text = "Número";
+       
             // 
             // clientes
             // 
@@ -357,6 +380,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(5);
+            this.MaximizeBox = false;
             this.Name = "clientes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cadastro de Clientes";
